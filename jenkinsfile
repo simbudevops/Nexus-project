@@ -1,0 +1,50 @@
+pipeline {
+    agent any
+    tools {
+        maven 'maven'
+        jdk 'java21'
+    }
+    stages {
+        stage('Git Checkout') {
+            steps {
+                git branch: 'main', url: 'https://github.com/simbudevops/Nexus-project.git'
+            }
+        }
+        stage('Compile') {
+            steps {
+                sh 'unset JAVA_TOOL_OPTIONS && mvn compile'
+            }
+        }
+        stage('Tests') {
+            steps {
+                sh 'unset JAVA_TOOL_OPTIONS && mvn test'
+            }
+        }
+        stage('Build') {
+            steps {
+                sh 'unset JAVA_TOOL_OPTIONS && mvn package -DskipTests=true'
+            }
+        }
+        stage('Deploy Artifacts') {
+            steps {
+                withMaven(
+                    globalMavenSettingsConfig: 'settings.xml',
+                    jdk: 'java21',
+                    maven: 'maven',
+                    mavenSettingsConfig: '',
+                    traceability: true
+                ) {
+                    sh 'unset JAVA_TOOL_OPTIONS && mvn deploy -DskipTests=true'
+                }
+            }
+        }
+    }
+    post {
+        success {
+            echo 'Pipeline completed successfully!'
+        }
+        failure {
+            echo 'Pipeline failed. Check logs above.'
+        }
+    }
+}
