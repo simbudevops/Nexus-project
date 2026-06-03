@@ -18,8 +18,8 @@
 	<properties>
 		<java.version>11</java.version>
 		<jacoco.version>0.8.7</jacoco.version>
-		<maven.compiler.source>11</maven.compiler.source>   <!-- ADD THIS -->
-		<maven.compiler.target>11</maven.compiler.target>   <!-- ADD THIS -->
+		<maven.compiler.source>11</maven.compiler.source>
+		<maven.compiler.target>11</maven.compiler.target>
 		<sonar.java.coveragePlugin>jacoco</sonar.java.coveragePlugin>
 		<sonar.dynamicAnalysis>reuseReports</sonar.dynamicAnalysis>
 		<sonar.jacoco.reportPath>${project.basedir}/../target/jacoco.exec</sonar.jacoco.reportPath>
@@ -71,13 +71,10 @@
 			<artifactId>spring-security-test</artifactId>
 			<scope>test</scope>
 		</dependency>
-		<!-- REMOVED jacoco from dependencies — it belongs only in plugins -->
 	</dependencies>
 
 	<build>
 		<plugins>
-
-			<!-- FIX: Override maven-compiler-plugin to 3.13.0 (Java 21 compatible) -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
@@ -85,12 +82,8 @@
 				<configuration>
 					<source>11</source>
 					<target>11</target>
-					<compilerArgs>
-						<arg>-parameters</arg>
-					</compilerArgs>
 				</configuration>
 			</plugin>
-
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
@@ -103,7 +96,6 @@
 					</excludes>
 				</configuration>
 			</plugin>
-
 			<plugin>
 				<groupId>org.jacoco</groupId>
 				<artifactId>jacoco-maven-plugin</artifactId>
@@ -124,7 +116,6 @@
 					</execution>
 				</executions>
 			</plugin>
-
 		</plugins>
 	</build>
 
@@ -135,4 +126,8 @@
 		</repository>
 		<snapshotRepository>
 			<id>maven-snapshots</id>
-			<url>http://65.1.13.59:8081/repository/maven-snapshots/</u
+			<url>http://65.1.13.59:8081/repository/maven-snapshots/</url>
+		</snapshotRepository>
+	</distributionManagement>
+
+</project>
